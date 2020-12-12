@@ -24,49 +24,107 @@ function showSuccess(input, message){
 
 
 // check email is valid
-function isValidEmail(email){
+// function isValidEmail(email){
+    function checkEmail(input){
     
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     // it will return boolean value according to the result it get 
-    return re.test(String(email).toLowerCase());
+    // return re.test(String(email).toLowerCase());
+
+    if(re.test(input.value.trim())){
+        showSuccess(input);
+    }
+    else{
+        showError(input, "Invalid Email")
+    }
    
 }
+
+// check required function
+
+function checkRequired(inputArray){
+    inputArray.forEach(function(input) {
+        if(input.value.trim() === ''){
+            showError(input, `${getFieldName(input)} is required`);
+        }
+        else{
+            showSuccess(input);
+        }
+    });
+}
+
+function checkLength(input, min, max){
+    if(input.value.length < 3){
+        showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+    }
+    else if(input.value.length > 15){
+        showError(input, `${getFieldName(input)} cannot be greater than ${max} characters`);
+    }
+    else{
+        showSuccess(input);
+    }
+}
+
+
+// password Matching
+
+function matchPassword(input1, input2){
+    if(input1.value === input2.value){
+        showSuccess(input1);
+    }
+    else{
+        showError(input2, "password do not match");
+    }
+}
+
+function getFieldName(input){
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);  
+}
+
+
 // Event listener
 form.addEventListener('submit', function(e){
     e.preventDefault();
     
+    checkRequired([username,email, password, password2]);
+    
+    checkLength(username, 3, 15);
+    checkLength(password, 6, 25);
+    // checkLength(password2, 6, 25);
+    checkEmail(email);
+    matchPassword(password, password2);
+// // getting rid of redundant code
+// // validating username
+//     if(username.value ===''){
+//         showError(username, 'username is required');
+//     }
+//     else{
+//         showSuccess(username);
+//     }
+// // validating email
+//     if(email.value ===''){
+//         showError(email, 'email is required');
+//     }
+//     else if(! isValidEmail(email.value)){
+//         showError(email, 'Invalid email');
+//     }
+//     else{
+//         showSuccess(email);
+//     }
 
-// validating username
-    if(username.value ===''){
-        showError(username, 'username is required');
-    }
-    else{
-        showSuccess(username);
-    }
-// validating email
-    if(email.value ===''){
-        showError(email, 'email is required');
-    }
-    else if(! isValidEmail(email.value)){
-        showError(email, 'Invalid email');
-    }
-    else{
-        showSuccess(email);
-    }
+//     // validating password
+//     if(password.value ===''){
+//         showError(password, 'password is required');
+//     }
+//     else{
+//         showSuccess(password);
+//     }
 
-    // validating password
-    if(password.value ===''){
-        showError(password, 'password is required');
-    }
-    else{
-        showSuccess(password);
-    }
-
-    // validating password matcher
-    if(password2.value ===''){
-        showError(password2, 'password 2 is required');
-    }
-    else{
-        showSuccess(password2);
-    }
+//     // validating password matcher
+//     if(password2.value ===''){
+//         showError(password2, 'password 2 is required');
+//     }
+//     else{
+//         showSuccess(password2);
+//     }
 });

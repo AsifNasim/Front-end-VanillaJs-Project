@@ -6,4 +6,4 @@ In this I will made 20 vanillaJs project in order to brush my frontend skill
 
 ## 1. Breather . Live @ https://breather.netlify.app
 
-
+## 2. Form Validator . Live @ https://valid-form.netlify.app
